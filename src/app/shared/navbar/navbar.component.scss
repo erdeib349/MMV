@@ -1,0 +1,23 @@
+a{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    border-radius: 0 !important;
+}
+
+a:hover{
+    background-color: rgb(157, 157, 157);
+}
+
+a maticon-icon, a span{
+    color: white !important;
+}
+
+mat-icon{   
+    color: white !important;
+}
+
+
+mat-nav-list {
+    min-width: 200px;
+}

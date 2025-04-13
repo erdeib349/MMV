@@ -1,0 +1,20 @@
+<div id="not-found-container">
+    <mat-card>
+        <mat-card-content>
+            <div id="not-found-content">
+                <div id="maincontent">
+                    <mat-icon>error</mat-icon>
+                    <h1>Az oldal nem található</h1>
+                </div>
+                <p>Az oldal, amit keresel nem létezik.</p>
+                <div id="gomb">
+                    <button [routerLink]="['/home']">
+                        <mat-icon>home</mat-icon>
+                        Vissza a főoldalra
+                    </button>
+                </div>
+
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

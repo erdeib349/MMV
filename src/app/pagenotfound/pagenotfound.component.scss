@@ -1,0 +1,81 @@
+mat-card{
+    width: 50%;
+    height: 25%;
+    margin: 20vh auto 0;
+    background-color: rgb(255, 200, 0);
+    font-family: 'Courier New', Courier, monospace;
+}
+
+h1{
+    text-align: center;
+    padding: 1rem;
+}
+
+p{
+    text-align: center;
+    margin-top: 5%;
+}
+
+#gomb{
+    display: flex;
+    justify-content: flex-end;
+}
+
+button{
+    border-radius: 0.5em;
+    padding: 0.5em;
+    width: auto;
+    display: flex;
+    align-items: center;
+    margin-top: 8%;    
+
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+button mat-icon{
+    padding-right: 20%;
+}
+
+#maincontent mat-icon{
+    position: relative;
+}
+
+#maincontent{
+    border: 1px solid black;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center; 
+}
+
+#not-found-container{
+    /* background-color: #555;
+    height: 100vh; */
+}
+
+@media (max-width: 800px) {
+    mat-card{
+        width: 90%;
+        height: 50%;
+        margin: 20vh auto 0;
+    }
+    button{
+        margin-top: 5%;
+    }
+    button mat-icon{
+        padding-right: 10%;
+    }
+    #gomb{
+        display: flex;
+        justify-content: center;
+    }
+
+    mat-icon{
+        display: none;
+    }
+}

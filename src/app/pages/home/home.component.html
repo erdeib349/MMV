@@ -1,1 +1,53 @@
-<p>home works!</p>
+<div class="page">
+    <h1 appTextShadow>Magyar Működő Vasutak</h1>
+
+    <form (ngSubmit)="vonatKeres()"> <!--  -->
+        <div class="form">
+            <h2>Útvonal</h2>
+            <div class="inputok">
+                <mat-form-field>
+                    <mat-label>Honnan?</mat-label>
+                    <input matInput [formControl]="honnan" autofocus required>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Hova?</mat-label>
+                    <input matInput [formControl]="hova" required>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label floatlabel="always">Mikor?</mat-label>
+                    <input matInput [matDatepicker]="picker" [formControl]="mikor" placeholder="Ma" required>
+                    <mat-hint>hh/nn/éééé</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker touchUi #picker></mat-datepicker>
+                </mat-form-field>
+
+                <div class="utasokKedvezmenyek">
+                    <mat-form-field [style.width.px]=200>
+                        <mat-label #utasok>Utasok száma</mat-label>
+                        <input matInput type="number" min="1" max="50" required>
+                    </mat-form-field>
+
+                    <div class="kedvezmenyek">
+                        <mat-checkbox [(ngModel)]="kedvezmenyek.diak" name="diak">
+                            Diák
+                        </mat-checkbox>
+                        <mat-checkbox [(ngModel)]="kedvezmenyek.nyugdijas"
+                            name="kisnyugdijas">Kisnyugdíjas</mat-checkbox>
+                        <mat-checkbox [(ngModel)]="kedvezmenyek.csaladi" name="csalados">Családi</mat-checkbox>
+                    </div>
+
+                </div>
+
+                @if (inputError) {
+                <div class="error-message" appBold>
+                    {{ inputError }}
+                </div>
+                }
+                <button mat-flat-button type="submit">Járatok
+                    keresése</button>
+                <!--  -->
+            </div>
+        </div>
+    </form>
+</div>

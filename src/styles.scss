@@ -1,1 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
+html, body { height: 100%; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  
+.active {
+  color: rgb(0, 68, 255)!important;
+} 
+
+.error-message {
+  color: red;
+  padding-bottom: 1rem;
+}
+
+.form {
+  min-width: 330px;
+  max-width: 40%;
+  width: 100%; 
+  margin: 20px auto;
+  border-radius: 8px 8px 0 0;
+  background: #ffffff;
+  text-align: center;
+  opacity: 90%;
+}
+  

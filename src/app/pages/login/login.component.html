@@ -1,0 +1,45 @@
+<div class="page">
+    <div class="login-container">
+
+        <form (ngSubmit)="login()" class="login-form">
+            <div class="form">
+                <h1>Bejelentkezés</h1>
+                <div class="inputok">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput type="email" [formControl]="email" required [value]="email.value | lowercase">
+                        <mat-icon matSuffix>email</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Password</mat-label>
+                        <input matInput type="password" [formControl]="password" required>
+                        <mat-icon matSuffix>lock</mat-icon>
+                    </mat-form-field>
+                </div>
+
+                @if (loginError) {
+                <div class="error-message" appBold>
+                    {{ loginError }}
+                </div>
+                }
+
+                <div class="gombok">
+                    <button mat-flat-button type="submit">Bejelentkezés</button>
+                    <button mat-flat-button [routerLink]="['/signup']">Regisztráció</button>
+                </div>
+            </div>
+        </form>
+
+
+        <!--  @if (isLoading) {
+        <div class="loading-container">
+            <h2>Login in progress</h2>
+            <mat-spinner diameter="50"></mat-spinner>
+            <p>Please wait...</p>
+        </div>
+        } -->
+
+
+    </div>
+</div>

@@ -1,16 +1,16 @@
-h1{
+
+.form {
+    width: 40%;
+    margin: 20px auto;
+    border-radius: 8px 8px 0 0;
+    background: #ffffff;
     text-align: center;
-    /* margin-top: 1%; */
-    font-family: 'Courier New', Courier, monospace;
-    color:white;
-    /* text-shadow: 2px 2px black ; */
+    opacity: 90%;
 }
-
-
   
-h2 {
+h1 {
     font-family: 'Courier New', Courier, monospace;
-    margin:8vh 0 2vh 0;
+    /* margin:10vh 0 2vh 0; */
     color: white;
     background-color: #333;
     width: 100%;
@@ -24,13 +24,15 @@ h2 {
     padding: 3%;
 }
 
-.kedvezmenyek{
+
+
+.gombok{
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
     flex-wrap: wrap;
-    justify-content: space-between;
-    max-width: 40%;
-    border-radius: 5px;
+    padding-bottom: 1rem;
+
 }
 
 .utasokKedvezmenyek{
@@ -53,15 +55,16 @@ h2 {
 }
 
 button{
-    width: 25%;
+    width: 20%;
     padding: 0.5rem;
     border-radius: 5px;
     border: 1px solid #333;
-    background-color: rgb(255, 200, 0);
+    background-color: rgb(255, 200, 0) !important;
+    color: #333 !important;
     margin: 0 auto 0;
     opacity: 100%;
     cursor: pointer;
-    width: 120px;
+    width: 100px;
 }
  
 
@@ -69,10 +72,4 @@ button{
     background-color: #1976d2; 
     color: white;
     font-size: 16px;
-}
-
-@media (max-width: 800px) {
-    h2 {
-        margin-top: 0;
-    }
 }
