@@ -10,7 +10,9 @@
   import { BoldDirective } from '../../directives/bold-text.directive';
   import { LowercasePipe } from '../../pipes/lower-pipe.pipe';
   import { MatSnackBar } from '@angular/material/snack-bar';
-  import { User } from '../../models/User';
+  import { User } from '../../models/AppUser';
+  import { AuthService } from '../../../services/auth.service';
+  import { Subscription } from 'rxjs';
 
   import { Router } from '@angular/router';
 
@@ -38,9 +40,13 @@
     password = new FormControl('');
     isLoggedIn: boolean = false;
     loginError: string = '';
-    //showLoginForm: boolean = true;
+    authSubscription?: Subscription;
 
-    constructor(private snackBar: MatSnackBar, private router: Router) {}
+    constructor(
+      private snackBar: MatSnackBar,
+      private router: Router,
+      private authService: AuthService
+      ) {}
 
     openSnackBar(message: string, action: string) {
       this.snackBar.open(message, action, {
@@ -50,48 +56,48 @@
 
 
     login() {
-      this.loginError = '';
-
-      const loginAdatok:User = {
-        email: this.email.value || '',
-        password: this.password.value || '',
-        passwordAgn: '',
-        vezeteknev: '',
-        keresztnev: '',
-      };
+      if (this.email.invalid) {
+        this.loginError = 'Please enter a valid email address';
+        return;
+      }
       
-      if (this.email.value === 'test@gmail.com' && this.password.value === 'testpw') {
-        this.isLoggedIn = true;
-        
-        /* 
-        this.openSnackBar('Sikeres bejelentkezés!', 'OK');
-        console.log('Bejelentkezési adatok mentve:', loginAdatok);
-        window.location.href = '/home'; */
-
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('loginAdatok', JSON.stringify(loginAdatok));
-      // Átirányítás query paraméterrel
-        this.router.navigate(['/home'], {
-        queryParams: { loginSuccess: 'true' }
-        }).then(() => {
-        window.location.reload(); 
-      });
-
-
-
-      } 
-      else if (this.email.value === "" || this.password.value === "") {
-        this.loginError = 'Töltse ki a kötelező mezőket!';
+      if (this.password.invalid) {
+        this.loginError = 'Password must be at least 6 characters long';
+        return;
       }
-
-      else if (this.email.value !== 'test@gmail.com' || this.password.value !== 'testpw') {
-        this.loginError = 'Helytelen e-mail cím vagy jelszó!';
-      }
-
-      else {
-        
-        //localStorage.setItem('kereses', JSON.stringify(loginAdatok));
-        
-      }
+  
+      const emailValue = this.email.value || '';
+      const passwordValue = this.password.value || '';
+      
+      this.loginError = '';
+  
+      this.authService.signIn(emailValue, passwordValue)
+        .then(userCredential => {
+          console.log('Login successful:', userCredential.user);
+          this.authService.updateLoginStatus(true);
+          this.openSnackBar('Sikeres bejelentkezés!', 'Bezár');
+          this.router.navigateByUrl('/home');
+        })
+        .catch(error => {
+          console.error('Login error:', error);
+          
+          switch(error.code) {
+            case 'auth/user-not-found':
+              this.loginError = 'Nincs felhasználó ezzel az email címmel';
+              break;
+            case 'auth/wrong-password':
+              this.loginError = 'Helytelen jelszó';
+              break;
+            case 'auth/invalid-credential':
+              this.loginError = 'Helytelen email vagy jelszó';
+              break;
+            default:
+              this.loginError = 'Azonosítás sikertelen,gyere vissza később.';
+          }
+        });
+    }
+  
+    ngOnDestroy() {
+      this.authSubscription?.unsubscribe();
     }
   }

@@ -1,35 +1,33 @@
 <div class="page">
     <h1>Magyar Működő Vasutak</h1>
 
-    <form (ngSubmit)="berletKeres()">
+    <form [formGroup]="form" (ngSubmit)="berletKeres()">
         <div class="form">
             <h2>Bérlettípus</h2>
             <div class="inputok">
-                <mat-radio-group [(ngModel)]="selectedBerlet" name="selectedBerlet">
-                    <mat-radio-button value="birodalom" matTooltip="Érvényes az egész Birodalom területén"
-                        matTooltipPosition="above" aria-label="nagycsaladosTooltip">Birodalom bérlet</mat-radio-button>
+                <mat-radio-group formControlName="selectedBerlet">
+                    <mat-radio-button value="birodalom" matTooltip="Érvényes az egész Birodalom területén">Birodalom
+                        bérlet</mat-radio-button>
                     <mat-radio-button value="tartomany" matTooltip="Csak a tartományon belül használható">Tartomány
                         bérlet</mat-radio-button>
                 </mat-radio-group>
 
-                <mat-form-field *ngIf="selectedBerlet === 'tartomany'">
+                <mat-form-field *ngIf="form.get('selectedBerlet')?.value === 'tartomany'">
                     <mat-label>Tartományok</mat-label>
-                    <mat-select [(ngModel)]="selectedTartomany" name="selectedTartomany">
+                    <mat-select formControlName="selectedTartomany">
                         <mat-option *ngFor="let t of tartomanySelect" [value]="t.value">
                             {{ t.viewValue }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
 
-                @if (berletError) {
-                <div class="error-message" appBold>
+                <div class="error-message" *ngIf="berletError" appBold>
                     {{ berletError }}
                 </div>
-                }
-                <button mat-flat-button color="primary" type="submit">
-                    Bérletek keresése
-                </button>
+
+                <button mat-flat-button color="primary" type="submit">Kosárba</button>
             </div>
         </div>
     </form>
+
 </div>

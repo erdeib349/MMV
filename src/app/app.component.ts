@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatSidenavModule,MatSidenav } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink,RouterLinkActive} from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 import { NavbarComponent } from './shared/navbar/navbar.component';
 
@@ -26,9 +28,12 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
   styleUrl: './app.component.scss'
 })
 
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit, OnDestroy{
   title = 'MMV';
   isLoggedIn = false;
+  private authSubscription?: Subscription;
+
+  constructor(private authService: AuthService) {}
 
   /*  */
   navLinks = [
@@ -37,20 +42,20 @@ export class AppComponent implements OnInit{
     { path: '/kosar', label: 'Kosár' }
   ]; /*  */
 
-  constructor() {}
 
   ngOnInit(): void {
-    this.checkLoginStatus();
+    this.authSubscription = this.authService.currentUser.subscribe(user => {
+      this.isLoggedIn = !!user;
+      localStorage.setItem('isLoggedIn', this.isLoggedIn ? 'true' : 'false');
+    });
   }
 
-  checkLoginStatus(): void {
-    this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  ngOnDestroy(): void {
+    this.authSubscription?.unsubscribe();
   }
 
   logout(): void {
-    localStorage.setItem('isLoggedIn', 'false');
-    this.isLoggedIn = false;
-    window.location.href = '/home';
+    this.authService.signOut();
   }
 
   onToggleSidenav(sidenav: MatSidenav){

@@ -3,46 +3,44 @@
 
 
 
-        <form (ngSubmit)="signup()" class="signup-form">
+        <form [formGroup]="signUpForm" (ngSubmit)="signup()" class="signup-form">
             <div class="form">
                 <h1>Regisztráció</h1>
                 <div class="inputok">
-                    <mat-form-field appearance="outline">
+                    <mat-form-field appearance="outline" formGroupName="name">
                         <mat-label>Vezetéknév</mat-label>
-                        <input matInput type="veznev" [formControl]="veznev" required>
-                        <mat-icon matSuffix>veznev</mat-icon>
+                        <input matInput type="text" formControlName="lastname" required>
+                        <mat-icon matSuffix>person</mat-icon>
                     </mat-form-field>
 
-                    <mat-form-field appearance="outline">
+                    <mat-form-field appearance="outline" formGroupName="name">
                         <mat-label>Keresztnév</mat-label>
-                        <input matInput type="kernev" [formControl]="kernev" required>
-                        <mat-icon matSuffix>kernev</mat-icon>
+                        <input matInput type="text" formControlName="firstname" required>
+                        <mat-icon matSuffix>person</mat-icon>
                     </mat-form-field>
 
                     <mat-form-field appearance="outline">
                         <mat-label>Email</mat-label>
-                        <input matInput type="email" [formControl]="email" required>
+                        <input matInput type="email" formControlName="email" required>
                         <mat-icon matSuffix>email</mat-icon>
                     </mat-form-field>
 
                     <mat-form-field appearance="outline">
                         <mat-label>Jelszó</mat-label>
-                        <input matInput type="password" [formControl]="password" required>
+                        <input matInput type="password" formControlName="password" required>
                         <mat-icon matSuffix>lock</mat-icon>
                     </mat-form-field>
 
                     <mat-form-field appearance="outline">
                         <mat-label>Jelszó megint</mat-label>
-                        <input matInput type="password" [formControl]="passwordAgn" required>
+                        <input matInput type="password" formControlName="rePassword" required>
                         <mat-icon matSuffix>lock</mat-icon>
                     </mat-form-field>
                 </div>
 
-                @if (signupError) {
-                <div class="error-message" appBold>
-                    {{ signupError }}
+                <div *ngIf="signUpError" class="error-message" appBold>
+                    {{ signUpError }}
                 </div>
-                }
 
                 <div class="gombok">
                     <button mat-flat-button [routerLink]="['/login']">Van már fiókod?</button>
@@ -50,6 +48,7 @@
                 </div>
             </div>
         </form>
+
         <!-- } -->
 
 

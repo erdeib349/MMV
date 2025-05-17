@@ -1,6 +1,8 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatListModule } from '@angular/material/list'
+import { AuthService } from '../../../services/auth.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenav } from '@angular/material/sidenav';
 import { CommonModule } from '@angular/common';
@@ -17,12 +19,14 @@ import { CommonModule } from '@angular/common';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
-export class NavbarComponent implements OnInit, AfterViewInit {
+export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() sidenav!: MatSidenav;
   @Input() isLoggedIn: boolean = false;
   @Output() logoutEvent = new EventEmitter<void>();
 
-  constructor() {
+  private authSubscription?: Subscription;
+
+  constructor(private authService: AuthService) {
     console.log("constructor called");
   }
 
@@ -34,15 +38,20 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     console.log("ngAfterViewInit called");
   }
 
-  closeMenu() {
+  ngOnDestroy(): void {
+    this.authSubscription?.unsubscribe();
+  }
+
+  closeNavbar() {
     if (this.sidenav) {
       this.sidenav.close();
     }
   }
 
   logout() {
-    localStorage.setItem('isLoggedIn', 'false');
-    window.location.href = '/home';
-    this.closeMenu();
+    this.authService.signOut().then(() => {
+      this.logoutEvent.emit();
+      this.closeNavbar();
+    });
   }
 }

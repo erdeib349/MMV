@@ -1,0 +1,221 @@
+.profilContainer {
+  background-color: #f2f2f2;
+  width: 70%;
+  min-height: 70%;
+  opacity: 0.9;
+  border-radius: 10px;
+  margin: 2em auto;
+  padding: 1em;
+  display: flex;
+  justify-content: space-around;
+  background-color: #333;
+  
+}
+
+
+.adatok {
+    border-radius: 10px;
+    width: 45%;
+    padding: 1em;
+    background-color: #f2f2f2;
+    
+
+}
+
+h2 {
+    margin-bottom: 1em;
+}
+
+p {
+    margin: 0.5em 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2em;
+}
+
+td {
+    padding: 0.5em;
+    border: 1px solid black;
+    width: 50%;
+}
+
+#modositas {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto 2em;
+    border: none;
+    min-width: 200px;
+}
+
+#modositas td {
+    padding: 0px;
+    border: none;
+}
+
+#modositas tr td:nth-child(1),
+#modositas tr th:nth-child(1) {
+  width: 40%;
+}
+
+#modositas tr td:nth-child(2),
+#modositas tr th:nth-child(2) {
+  width: 60%;
+}
+
+
+input {
+    width: 100%;
+    padding: 1em;
+    background-color: #333;
+    color: white;
+    border: 1px solid white;
+}
+
+input:focus {
+  border-color: rgb(255, 200, 0);;
+  outline: none;
+  box-shadow: 0 0 2px rgb(255, 200, 0);
+}
+
+input::selection, textarea::selection {
+  background: white; 
+  color: #333;
+}
+
+label {
+    font-weight: bold;
+}
+
+button {
+    background-color: rgb(255, 200, 0);
+    color: #333;
+    padding: 1em;
+    border: 2px solid #555;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 1.0;
+    margin-top: 2%;
+}
+
+
+.scroll-container {
+  max-height: 400px;  
+  overflow-y: auto;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+@media screen and (max-width: 768px) {
+  .profilContainer {
+    margin: 1em auto 0;
+    max-width: none;
+    min-width: 90vw;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem;
+  }
+
+  .szemelyes.adatok,
+  .vasarlasok.adatok {
+    width: 100%;
+  }
+
+  form table {
+    width: 100%;
+    font-size: 14px;
+    border-collapse: collapse;
+  }
+
+  form table tr {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    width: 100%; /* hozzáadva, hogy tr teljes szélesség legyen */
+  }
+
+  form table td {
+    display: block;
+    width: 100%; /* már van, de fontos */
+    padding: 0.25rem 0;
+  }
+
+  input[type="text"],
+  input[type="email"] {
+    width: 75vw;
+    padding: 0.5rem;
+    box-sizing: border-box;
+   }
+  
+
+  form table td label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: bold;
+  }
+
+  /* input[type="text"],
+  input[type="email"] {
+    width: 100%;
+    padding: 0.5rem;
+    box-sizing: border-box;
+  } */
+
+ 
+
+  button[type="submit"] {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .buttonrow{
+    align-items: center;
+    margin: 0 !important;
+  }
+
+  .scroll-container {
+    max-height: 50vh;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0; 
+    max-height: 400px;
+    font-size: 14px;
+  }
+
+
+
+  h1 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  #adatmod {
+    margin-top: 1.5em;
+  }
+
+  table{
+    margin: 0;
+  }
+
+
+  .jegy-info-scrollable {
+    padding: none !important;
+  }
+
+  .page {
+    min-height: 100vh;
+    height: auto;
+  }
+
+}
+

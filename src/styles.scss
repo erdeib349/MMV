@@ -25,4 +25,20 @@ html, body { height: 100%; }
   text-align: center;
   opacity: 90%;
 }
+
+.page {
+  background-image: url('../public/trainWallpaper.jpg'); 
+  background-size: cover;
+  background-attachment: fixed; 
+  height: calc(100% - 4rem);
+  padding: 1rem;
+}
+
+h1{
+  text-align: center;
+  /* margin-top: 1%; */
+  font-family: 'Courier New', Courier, monospace;
+  color:white;
+  /* text-shadow: 2px 2px black ; */
+}
   

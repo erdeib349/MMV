@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "type": "jegy",
+    "from": "Budapest",
+    "to": "Debrecen",
+    "date": "2025-05-04"
+  },
+  {
+    "id": 2,
+    "type": "bérlet",
+    "from": "Budapest",
+    "to": "Győr",
+    "date": "2025-05-10"
+  }
+]

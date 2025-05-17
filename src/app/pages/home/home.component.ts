@@ -7,15 +7,16 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { FormControl } from '@angular/forms';
-import {ReactiveFormsModule}  from '@angular/forms';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TextShadowDirective } from '../../directives/text-shadow.directive';
 import { BoldDirective } from '../../directives/bold-text.directive';
 import { ActivatedRoute } from '@angular/router';
+import { Firestore, collection, addDoc } from '@angular/fire/firestore'; // Firestore importálása
+import { inject } from '@angular/core';
 import { Jegy } from '../../models/Jegy';
 import { Kedvezemenyek } from '../../models/Kedvezmenyek';
-
-
+import moment from 'moment';
 
 @Component({
   selector: 'app-home',
@@ -40,7 +41,7 @@ import { Kedvezemenyek } from '../../models/Kedvezmenyek';
 
 export class HomeComponent {
   inputError: string = '';
-  honnan = new FormControl('');
+  honnanan = new FormControl('');
   hova = new FormControl('');
   mikor = new FormControl(null);
   utasokSzama = new FormControl(1);
@@ -51,23 +52,21 @@ export class HomeComponent {
     csaladi: false
   }
 
+  firestore: Firestore = inject(Firestore); // Firestore injektálása
 
-  constructor(private snackBar: MatSnackBar,
-    private route: ActivatedRoute){
-
-      this.route.queryParams.subscribe(params => {
-        if (params['loginSuccess'] === 'true') {
-          this.openSnackBar('Sikeres bejelentkezés!', 'OK');
-          
-          const loginDataString = localStorage.getItem('loginAdatok');
-          if (loginDataString) {
-            const loginAdatok = JSON.parse(loginDataString);
-            console.log('Bejelentkezési adatok:', loginAdatok);
-          }
+  constructor(private snackBar: MatSnackBar, private route: ActivatedRoute) {
+    this.route.queryParams.subscribe(params => {
+      if (params['loginSuccess'] === 'true') {
+        this.openSnackBar('Sikeres bejelentkezés!', 'OK');
+        
+        const loginDataString = localStorage.getItem('loginAdatok');
+        if (loginDataString) {
+          const loginAdatok = JSON.parse(loginDataString);
+          console.log('Bejelentkezési adatok:', loginAdatok);
         }
-      });
-
-    }
+      }
+    });
+  }
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
@@ -78,9 +77,9 @@ export class HomeComponent {
     });
   }
 
-  vonatKeres() {
+  async vonatKeres() {
     const keresesiAdatok: Jegy = {
-      honnanan: this.honnan.value || '',
+      honnanan: this.honnanan.value || '',
       hova: this.hova.value || '',
       datum: this.mikor.value ? 
       (this.mikor.value as moment.Moment).format('YYYY-MM-DD') : '',  
@@ -90,14 +89,21 @@ export class HomeComponent {
 
     this.inputError = '';
     
-    if (this.honnan.value === "" || this.hova.value === "" 
-      || this.mikor.value === null) {
+    if (this.honnanan.value === "" || this.hova.value === "" || this.mikor.value === null) {
       this.inputError = 'Töltse ki a kötelező mezőket!';
-    } 
-    else {
+    } else {
+      // Firestore-ba mentés
+      try {
+        const docRef = await addDoc(collection(this.firestore, 'jegyKereses'), keresesiAdatok);
+        console.log('Keresési adatok mentve, ID:', docRef.id);
+        this.openSnackBar('Keresés elindítva!', 'OK');
+      } catch (e) {
+        console.error('Hiba mentés közben:', e);
+        this.openSnackBar('Hiba történt a mentés során!', 'OK');
+      }
+
       localStorage.setItem('kereses', JSON.stringify(keresesiAdatok));
       console.log('Keresési adatok mentve:', keresesiAdatok);
-      this.openSnackBar('Keresés elindítva!', 'OK');   
     }
   }
 }

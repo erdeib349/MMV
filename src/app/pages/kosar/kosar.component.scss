@@ -1,0 +1,136 @@
+.page {
+    font-family: 'Courier New', Courier, monospace;
+}
+table {
+    border: 2px solid black;
+    margin: 5% auto 0;
+    background-color: #f2f2f2;
+    width: 50%;
+    min-width: 400px;
+    height: 60%;
+    opacity: 0.9;
+    border-collapse: separate;     
+    border-spacing: 0;             
+    border-radius: 10px;            
+    overflow: hidden;             
+}
+
+td, th {
+    border: 1px solid black;
+    
+}
+
+td {
+    width: 50%;
+    padding: 0.5rem;
+    vertical-align: top;
+}
+
+th {
+    height: 20%;
+    font-size: 20px;
+    background-color: rgb(246, 109, 35);
+    color: #f2f2f2;
+}
+
+.berletOszlop{
+    border-radius: 0 10px 0 0;
+}
+
+.jegyOszlop{
+    border-radius: 10px 0 0 0;
+}
+
+.jegyCella{
+    border-radius: 0 0 0 10px;
+}
+
+.berletCella{
+    border-radius: 0 0 10px 0;
+}
+
+.berletCella li{
+    align-items: center;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    height: 50px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+}
+
+li:hover {
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+}
+
+.mobilFelirat{
+    color: transparent;
+}
+
+@media screen and (max-width: 768px) {
+    .mobilFelirat {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            background-color: rgb(246, 109, 35);
+            color:white;
+            padding: 1em;
+            //border-radius: 5px 5px 0 0;
+        }
+
+
+    table {
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        height: 70vh;
+        min-width: unset;
+        margin: 2rem auto;
+        font-size: 14px;
+        background-color: #f2f2f2;
+        border: 2px solid black;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    thead, tbody, tr {
+        display: contents;
+    }
+
+    th {
+        display: none;
+    }
+
+    td {
+        width: 100%;
+        height: 50%;
+        //padding: 1rem;
+        box-sizing: border-box;
+        border: none;
+        border-top: 1px solid black;
+        overflow-y: auto;
+    }
+
+    .jegyCella {
+        border-radius: 10px 10px 0 0;
+        border-top: none;
+    }
+
+
+    li {
+        font-size: 14px;
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+    }
+}

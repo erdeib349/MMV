@@ -1,0 +1,28 @@
+.jegy-info-scrollable {
+  max-height: 170px;      
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  border: none;
+}
+
+.jegy-info-scrollable table {
+  width: 100%;
+  border-collapse: collapse;
+  
+}
+
+.jegy-info-scrollable td {
+  padding: 4px 8px;
+  vertical-align: top;
+  
+}
+
+.jegy-info-scrollable td:first-child {
+  font-weight: bold;
+  width: 140px;
+  
+}

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormGroup, FormControl,ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
@@ -8,6 +8,11 @@ import {MatTooltip, MatTooltipModule} from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
 import { BoldDirective } from '../../directives/bold-text.directive';
 import { Berlet } from '../../models/Berlet';
+import { Firestore, collection, addDoc } from '@angular/fire/firestore'; 
+import { inject } from '@angular/core'; 
+import { User } from '../../models/AppUser';
+import { Subscription } from 'rxjs';
+import { UserService } from '../../../services/user.service';
 
 interface Tar {
   value: string;
@@ -25,15 +30,25 @@ interface Tar {
     MatRadioModule,
     MatTooltipModule,
     MatTooltip,
-    BoldDirective
+    BoldDirective,
+    ReactiveFormsModule
   ],
   templateUrl: './berlet.component.html',
   styleUrl: './berlet.component.scss',
 })
 export class BerletComponent {
+
+  form = new FormGroup({
+      selectedBerlet: new FormControl(''),
+      selectedTartomany: new FormControl('')
+    });
+
+
   selectedBerlet: 'tartomany' | 'birodalom' | '' = '';
   selectedTartomany: string = '';
   berletError: string = '';
+  user: User | null = null;
+  private subscription: Subscription | null = null;
 
   tartomanySelect: Tar[] = [
     { value: 'kiskun', viewValue: 'Bács-Kiskun' },
@@ -57,7 +72,10 @@ export class BerletComponent {
     { value: 'zala', viewValue: 'Zala' },
   ];
 
-  constructor(private snackBar: MatSnackBar) {}
+
+  private firestore: Firestore = inject(Firestore);
+
+  constructor(private snackBar: MatSnackBar, private userService: UserService) {}
 
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
@@ -68,15 +86,23 @@ export class BerletComponent {
     });
   }
 
-  berletKeres() {
+  loadUser() {
+    this.subscription = this.userService.getUserProfile().subscribe({
+      next:(data) => {this.user = data.user},error:(error) => {console.error("Hiba a felhasználó betöltésekor: ", error)}
+    })
+  }
+
+  async berletKeres() {
     this.berletError = '';
+    const berlet = this.form.value.selectedBerlet;
+    const tartomany = this.form.value.selectedTartomany;
   
-    if (!this.selectedBerlet) {
+    if (!berlet) {
       this.berletError = 'Válasszon egy bérlettípust!';
       return;
     }
   
-    if (this.selectedBerlet === 'tartomany' && !this.selectedTartomany) {
+    if (berlet === 'tartomany' && !tartomany) {
       this.berletError = 'Válasszon egy tartományt!';
       return;
     }
@@ -85,6 +111,12 @@ export class BerletComponent {
       tipus: this.selectedBerlet as 'tartomany' | 'birodalom',
       tartomany: this.selectedTartomany
     };
+
+    /* const keresesiAdatok = {
+      tipus: berlet,
+      tartomany: tartomany
+    }; */
+
   
     localStorage.setItem('kereses', JSON.stringify(keresesiAdatok));
     console.log('Bérlet adatok mentve:', keresesiAdatok);

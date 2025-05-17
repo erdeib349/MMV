@@ -1,0 +1,61 @@
+<div class="page">
+    <h1>Magyar Működő Vasutak</h1>
+    <div class="profilContainer">
+        <div class="szemelyes adatok">
+            <h2>Profil</h2>
+            <table>
+                <tr>
+                    <td><strong>Név:</strong></td>
+                    <td>{{ user?.nev?.vezeteknev }} {{ user?.nev?.keresztnev }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Email:</strong></td>
+                    <td>{{ user?.email }}</td>
+                </tr>
+            </table>
+            <h2 id="adatmod">Adatmódosítás</h2>
+
+            <form [formGroup]="form" (ngSubmit)="onSave()" id="modositas">
+                <table>
+                    <tr>
+                        <td><label for="vezeteknev">Vezetéknév:</label></td>
+                        <td><input id="vezeteknev" formControlName="vezeteknev" type="text" required /></td>
+                    </tr>
+                    <tr>
+                        <td><label for="keresztnev">Keresztnév:</label></td>
+                        <td><input id="keresztnev" formControlName="keresztnev" type="text" required /></td>
+                    </tr>
+                    <tr>
+                        <td><label for="email">Email:</label></td>
+                        <td><input id="email" formControlName="email" type="email" required />
+                        </td>
+                    </tr>
+                    <tr class="buttonrow">
+                        <td colspan="2" style="text-align: center; padding-top: 1rem;">
+                            <button type="submit">Mentés</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+        <div class="vasarlasok adatok">
+            <h2>Vásárlási előzmények</h2>
+
+            <div class="scroll-container">
+                <ng-container *ngIf="megvettTermekek?.length; else noPurchases">
+                    <ng-container *ngFor="let megvett of megvettTermekek; trackBy: trackById">
+
+                        <app-jegytemplate *ngIf="megvett && megvett.trim() !== ''" [jegyId]="megvett">
+                        </app-jegytemplate>
+                    </ng-container>
+                </ng-container>
+
+                <ng-template #noPurchases>
+                    <i>Nincs vásárlási előzmény.</i>
+                </ng-template>
+            </div>
+        </div>
+
+    </div>
+</div>

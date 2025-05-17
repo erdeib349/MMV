@@ -1,7 +1,42 @@
-<h1>Kidolgozás alatt <span>😃</span> </h1>
+<div class="page">
+    <h1 appTextShadow>Magyar Működő Vasutak</h1>
 
-<style>
-    h1 {
-        text-align: center;
-    }
-</style>
+    <table>
+        <tr>
+            <th class="jegyOszlop">Jegyek</th>
+            <th class="berletOszlop">Bérletek</th>
+        </tr>
+        <tr>
+            <td class="jegyCella">
+                <div class="mobilFelirat">Jegyek</div>
+                <ng-container *ngIf="jegyKereses$ | async as jegyek; else loading">
+                    <ul *ngIf="jegyek.length > 0; else nincsJegy">
+                        <li *ngFor="let jegy of jegyek">
+                            {{ jegy.honnanan }} → {{ jegy.hova }} ({{ jegy.datum }}) – {{ jegy.utasSzam }} utas
+                            <span *ngIf="jegy.kedvezmenyek?.diak"> [Diák]</span>
+                            <span *ngIf="jegy.kedvezmenyek?.nyugdijas"> [Nyugdíjas]</span>
+                            <span *ngIf="jegy.kedvezmenyek?.csaladi"> [Családi]</span>
+                        </li>
+                    </ul>
+                </ng-container>
+
+                <ng-template #nincsJegy><i>Nincs jegy.</i></ng-template>
+            </td>
+            <td class="berletCella">
+                <div class="mobilFelirat">Bérletek</div>
+                <ng-container *ngIf="berletKereses$ | async as berletek; else loading">
+                    <ul *ngIf="berletek.length > 0; else ures">
+                        <li *ngFor="let berlet of berletek">
+                            <span *ngIf="berlet.tipus === 'birodalom'">Birodalom bérlet</span>
+                            <span *ngIf="berlet.tipus === 'tartomany'">{{ berlet.tartomany }}</span>
+                        </li>
+                    </ul>
+                </ng-container>
+
+
+                <ng-template #loading>Betöltés...</ng-template>
+                <ng-template #ures><i>Nincs bérlet.</i></ng-template>
+            </td>
+        </tr>
+    </table>
+</div>
